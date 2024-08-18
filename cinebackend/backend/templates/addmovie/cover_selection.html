@@ -1,0 +1,12 @@
+<div class="d-flex flex-wrap  justify-content-around">
+    {% for cover in covers %}
+    <form action="/cinebackend/moviemanager/editmovie/{{ movie.id }}/changecover" method="post">
+        {% csrf_token %}
+        <input name="cover_url" value="{{ cover.file_path }}" hidden>
+        <button type="submit" style="border: none;">
+            <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{ cover.file_path }}" style="max-height: 200px;" class="img-fluid rounded mb-2" alt="...">
+        </button>
+    </form>
+    {% endfor %}
+
+</div>

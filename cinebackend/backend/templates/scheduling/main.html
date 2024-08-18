@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% regroup times by movie as movielist %}
+{% block body %}
+<div class="container pt-2">
+    <div class="d-flex justify-content-between">
+        <h1>Planer</h1>
+    </div>
+    <div id="maincontainer"><br><br>
+            {% for movie in movies %}
+            <div class="card mb-3" style="max-height: 300px;">
+                <div class="row g-0">
+                  <div class="col-md-2">
+                    <img src="{{ movie.movie.cover_url }}" style="max-height: 300px;"class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">{{ movie.movie.title}}</h5>
+                            <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-{{ movie.movie.id }}"
+                          >
+                            Neue Zeit hinzufügen
+                          </button>
+                        </div>
+                      <p>
+                        {% for time in movie.times %}
+                        {{ time.date }} - {{ time.time }} Uhr
+                        {% if time.premiere == True %}
+                        <span class="badge rounded-pill text-bg-primary">Premiere</span>
+                        {% endif %}
+                        <span class="badge text-bg-info">{{ time.language }}</span>
+                        <span class="badge text-bg-warning">{{ time.location }}</span>
+                        <br>
+                        
+                        {% endfor %}
+                      </p>
+                      <!-- Modal trigger button -->
+                      
+                      
+                      <!-- Modal Body -->
+                      <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+                      <div
+                        class="modal fade"
+                        id="modal-{{ movie.movie.id }}"
+                        tabindex="-1"
+                        data-bs-backdrop="static"
+                        data-bs-keyboard="false"
+                        
+                        role="dialog"
+                        aria-labelledby="modalTitleId"
+                        aria-hidden="true"
+                      >
+                        <div
+                            class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                            role="document"
+                        >
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalTitleId">
+                                        Neue Zeit für {{ movie.movie.title }}
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/cinebackend/scheduler/addtime/{{ movie.movie.id }}" method="post">
+                                        {% csrf_token %}
+                                        <label class="form-check-label" for="date">Datum:</label>
+                                        <input class="form-control" type="date" id="date" name="date"> <br>
+                                        <label for="time">Zeit:</label>
+                                        <input class="form-control" type="time" id="time" name="time"><br>
+                                        {% bootstrap_form  selectionform %} 
+                                </div>
+                                <div class="modal-footer">
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal"
+                                    >
+                                        Zurück
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Speichern</button>
+                                </form>                                    
+
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Optional: Place to the bottom of scripts -->
+                      <script>
+                        const myModal = new bootstrap.Modal(
+                            document.getElementById("modal-{{ movie.movie.id }}"),
+                            options,
+                        );
+                      </script>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+    </div>
+    
+</div>
+{% endblock body %}

@@ -1,0 +1,36 @@
+<form action="/cinebackend/moviemanager/addmovie/" method="post">
+    {% csrf_token %}
+    {% if tmdb == "true" %}
+    <p>
+        Dieser Film wurde über TheMovieDB importiert
+    </p>
+    {% endif %}
+    <br>
+        <label for="tmdb_id" class="form-label">TheMovieDB-ID</label>
+        <input type="text" class="form-control mb-2" name="tmdb_id" id="tmbd_id" value="{{ tmdb_id }}">
+        <label for="title" class="form-label">Titel</label>
+        <input type="text" class="form-control mb-2" name="title" id="title" value="{{ title }}">
+        <label for="director" class="form-label">Regisseur</label>
+        <input type="text" class="form-control mb-2" name="director"id="director" value="{{ director }}">
+    
+        <label class="form-label">Schauspieler auswählen</label><br>
+    <div style="overflow:scroll;height:200px;" class="border rounded">
+        {% for actor in actors %}
+        <input class="form-check-input ml-2" name="{{ actor.id }}" type="checkbox" value="" id="check-actor-{{ actor.id }}">
+        <label class="form-check-label" for="check-actor-{{ actor.id }}">
+          {{ actor.name }}
+        </label><br>
+        {% endfor %}
+    </div><br>
+
+        <label for="year" class="form-label" >Erscheinungsjahr</label>
+        <input type="text" class="form-control mb-2" name="year" id="year" value="{{ year }}">
+
+        <label for="description" class="form-label" >Beschreibung</label>
+        <textarea class="form-control ml-2" type="text" name="description" id="description" rows="4">{{ description }}</textarea>
+      
+
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

@@ -1,0 +1,28 @@
+<br>
+<h3>Bearbeite {{ movie.title }}</h3>
+
+<form action="/cinebackend/moviemanager/editmovie/{{ movie.id }}" method="post">
+    {% csrf_token %}
+    <label class="form-check-label mr-2" for="check-actor-{{ actor.id }}">Aktiv?</label> 
+    {% if movie.active == True %}
+        <input class="form-check-input ml-2" name="active" type="checkbox" value="" id="check-actor-{{ actor.id }}" checked>
+    {% else %}
+        <input class="form-check-input ml-2" name="active" type="checkbox" value="" id="check-actor-{{ actor.id }}">
+    {% endif %}<br><br>
+    <label for="title" class="form-label">Titel</label>
+    <input type="text" class="form-control mb-2" name="title" id="title" value="{{ movie.title }}">
+    <label for="director" class="form-label">Regisseur</label>
+    <input type="text" class="form-control mb-2" name="director"id="director" value="{{ movie.director }}">
+    <label for="actor" class="form-label">Schauspieler</label>
+    <input type="text" class="form-control mb-2" name="actors"id="actor" value="{{ movie.actors }}">
+    <label for="year" class="form-label" >Erscheinungsjahr</label>
+    <input type="text" class="form-control mb-2" name="year" id="year" value="{{ movie.year }}">
+    <label for="description" class="form-label" >Beschreibung</label>
+    <textarea class="form-control ml-2" type="text" name="description" id="description" rows="4">{{ movie.description }}</textarea><br>
+    <button type="submit" class="btn btn-primary">Speichern</button>
+
+  
+</form>
+<br>
+
+<button class="btn btn-danger"href="" hx-get="/cinebackend/moviemanager/editmovie/{{ movie.id }}/changecover" hx-target="#maincontainer">Poster ändern</button>

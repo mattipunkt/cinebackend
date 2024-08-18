@@ -1,0 +1,18 @@
+{% for movie in results %}
+<a href="" hx-get="/cinebackend/moviemanager/movieedit?tmbd=true&tmbd_id={{ movie.id }}&title={{ movie.title }}&release-date={{ movie.release_date }}" hx-target="#maincontainer">
+  <div class="card mb-3" style="max-height: 200px;">
+    <div class="row g-0">
+      <div class="col-md-1">
+        <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{ movie.poster_path }}" style="max-height: 200px;" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.title }} ({{ movie.release_date }})</h5>
+          <p class="card-text" style="overflow: hidden; text-overflow: ellipsis;">{{ movie.overview }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
+
+{% endfor %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container pt-2">
+    <div class="d-flex justify-content-between">
+        <h1>Filmverwaltung</h1>
+        <button hx-get="/cinebackend/moviemanager/addmovie"
+        hx-trigger="click"
+        hx-target="#maincontainer"
+        hx-swap="innerHTML"
+        class="btn btn-primary">Film hinzufügen</button>
+    </div>
+    <div id="maincontainer"><br><br>
+        <h2>Aktive Filme</h2>
+        <div class="d-flex flex-wrap justify-content-between">        
+            {% for movie in movies %}
+            <a  href="" hx-get="/cinebackend/moviemanager/editmovie/{{ movie.id }}" hx-trigger="click" hx-target="#maincontainer" hx-swap="innerHTML">
+                <div class="card mb-3" style="max-width: 200px;">
+                    <div class="row g-0">
+                      <div class="col">
+                        <img src="{{ movie.cover_url }}" class="img-fluid rounded" alt="...">
+                      </div>
+                    </div>
+                  </div>
+            </a>
+            {% endfor %}
+        </div>
+
+    </div>
+    
+</div>
+{% endblock body %}
